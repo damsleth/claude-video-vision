@@ -2,14 +2,11 @@ import { execFile } from "child_process";
 import { promisify } from "util";
 import { existsSync, mkdirSync } from "fs";
 import { join } from "path";
-import { homedir } from "os";
 import { checkCommand, detectPlatform, recommendWhisperModel } from "./platform.js";
 import type { Backend, WhisperEngine, WhisperModel } from "../types.js";
+import { MODELS_DIR } from "./paths.js";
 
 const execFileAsync = promisify(execFile);
-
-const CONFIG_DIR = join(homedir(), ".claude-video-vision");
-const MODELS_DIR = join(CONFIG_DIR, "models");
 
 export interface SetupResult {
   status: "ready" | "missing_dependencies" | "error";

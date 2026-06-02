@@ -147,7 +147,7 @@ The plugin exposes 6 MCP tools:
 
 ## Configuration
 
-Settings are stored in `~/.claude-video-vision/config.json`:
+Settings are stored in `$XDG_CONFIG_HOME/claude-video-vision/config.json` — defaulting to `~/.config/claude-video-vision/config.json`. Set `XDG_CONFIG_HOME` to relocate it anywhere you like. (An existing `~/.claude-video-vision/` directory from earlier versions is still honored, so upgrades don't lose your config or downloaded models.)
 
 ```json
 {
@@ -169,7 +169,7 @@ Settings are stored in `~/.claude-video-vision/config.json`:
 
 `frame_format` can be `jpeg`, `png`, or `webp`. `jpeg` remains the default for backwards compatibility; `png` is useful for screen recordings where text and sharp UI edges should stay lossless.
 
-**Whisper models** auto-download to `~/.claude-video-vision/models/` on first use. Available: `tiny`, `base`, `small`, `medium`, `large-v3-turbo`, `large-v3`, `auto` (picks best for your RAM).
+**Whisper models** auto-download to the `models/` subdirectory of the config directory (e.g. `~/.config/claude-video-vision/models/`) on first use. Available: `tiny`, `base`, `small`, `medium`, `large-v3-turbo`, `large-v3`, `auto` (picks best for your RAM).
 
 ## YouTube Transcripts
 

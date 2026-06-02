@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { extname, join } from "path";
-import { homedir } from "os";
 import { mkdirSync, rmSync, existsSync, readFileSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -22,9 +21,7 @@ import {
   sampleFrameIndices,
 } from "../session/manifest.js";
 import type { SessionManifest } from "../types.js";
-
-const CONFIG_PATH = join(homedir(), ".claude-video-vision", "config.json");
-const SESSIONS_DIR = join(homedir(), ".claude-video-vision", "sessions");
+import { CONFIG_PATH, SESSIONS_DIR } from "../utils/paths.js";
 
 const HMS_REGEX = /^\d{2}:\d{2}:\d{2}$/;
 
