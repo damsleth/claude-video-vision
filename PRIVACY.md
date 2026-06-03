@@ -47,8 +47,8 @@ You choose one of three backends during `/setup-video-vision`. Each has differen
 
 The plugin writes and reads from these locations on your machine:
 
-- `~/.claude-video-vision/config.json` — your chosen backend and extraction preferences
-- `~/.claude-video-vision/models/` — downloaded Whisper models (Local backend only)
+- `$XDG_CONFIG_HOME/claude-video-vision/config.json` (default `~/.config/claude-video-vision/config.json`) — your chosen backend and extraction preferences
+- `$XDG_CONFIG_HOME/claude-video-vision/models/` (default `~/.config/claude-video-vision/models/`) — downloaded Whisper models (Local backend only)
 - `~/.gemini/tmp/claude-video-vision/` — temporary audio files for the Gemini CLI (deleted after each call)
 - OS temporary directory — frames and audio extracted during a single video analysis (deleted after each call)
 

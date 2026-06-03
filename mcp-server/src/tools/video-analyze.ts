@@ -2,7 +2,6 @@ import { execFile } from "child_process";
 import { promisify } from "util";
 import { z } from "zod";
 import { join } from "path";
-import { homedir } from "os";
 import { mkdirSync, rmSync, existsSync, readFileSync } from "fs";
 import { tmpdir } from "os";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -38,11 +37,9 @@ import {
 } from "../session/manager.js";
 import { createManifest } from "../session/manifest.js";
 import type { AnalysisFilters, VideoAnalysis, AudioResult } from "../types.js";
+import { CONFIG_PATH, SESSIONS_DIR, MODELS_DIR } from "../utils/paths.js";
 
 const execFileAsync = promisify(execFile);
-
-const CONFIG_PATH = join(homedir(), ".claude-video-vision", "config.json");
-const SESSIONS_DIR = join(homedir(), ".claude-video-vision", "sessions");
 
 export function registerVideoAnalyze(server: McpServer): void {
   server.tool(
@@ -228,13 +225,12 @@ export function registerVideoAnalyze(server: McpServer): void {
             audioResult = await transcribeWithOpenAI(wavPath);
           } else if (config.backend === "local") {
             const audioDir = join(workDir, "audio");
-            const modelDir = join(homedir(), ".claude-video-vision", "models");
             const wavPath = await extractAudio(safePath, audioDir, {});
             audioResult = await transcribeWithWhisper(wavPath, {
               engine: config.whisper_engine,
               model: config.whisper_model,
               whisperAt: config.whisper_at,
-              modelDir,
+              modelDir: MODELS_DIR,
             });
           } else {
             // unconfigured or none — skip transcription gracefully

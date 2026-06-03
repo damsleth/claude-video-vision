@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { join } from "path";
-import { homedir } from "os";
 import { copyFileSync, mkdirSync, rmSync } from "fs";
 import { tmpdir } from "os";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -26,12 +25,9 @@ import {
 import { getSessionDir, loadManifest, saveManifest, computeVideoHash } from "../session/manager.js";
 import { createManifest, frameCacheKey, mergeFrames, sampleFrameIndices } from "../session/manifest.js";
 import type { AudioResult, VideoWatchResult, Frame, Segment, SessionManifest } from "../types.js";
-
-const CONFIG_PATH = join(homedir(), ".claude-video-vision", "config.json");
+import { CONFIG_PATH, SESSIONS_DIR, MODELS_DIR } from "../utils/paths.js";
 
 const HMS_REGEX = /^\d{2}:\d{2}:\d{2}$/;
-
-const SESSIONS_DIR = join(homedir(), ".claude-video-vision", "sessions");
 
 const UNCONFIGURED_MESSAGE = `## claude-video-vision is not configured yet!
 
@@ -215,7 +211,6 @@ export function registerVideoWatch(server: McpServer): void {
       } else {
         // local
         const audioDir = join(workDir, "audio");
-        const modelDir = join(homedir(), ".claude-video-vision", "models");
         audioPromise = extractAudio(safePath, audioDir, {
           startTime: params.start_time,
           endTime: params.end_time,
@@ -224,7 +219,7 @@ export function registerVideoWatch(server: McpServer): void {
             engine: config.whisper_engine,
             model: config.whisper_model,
             whisperAt: config.whisper_at,
-            modelDir,
+            modelDir: MODELS_DIR,
           }),
         );
       }

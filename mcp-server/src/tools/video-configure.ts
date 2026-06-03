@@ -1,11 +1,8 @@
 import { z } from "zod";
-import { join } from "path";
-import { homedir } from "os";
 import { rmSync, existsSync } from "fs";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { loadConfig, saveConfig } from "../config.js";
-
-const CONFIG_PATH = join(homedir(), ".claude-video-vision", "config.json");
+import { CONFIG_PATH, SESSIONS_DIR } from "../utils/paths.js";
 
 export function registerVideoConfigure(server: McpServer): void {
   server.tool(
@@ -34,9 +31,8 @@ export function registerVideoConfigure(server: McpServer): void {
     },
     async (params) => {
       if (params.clear_sessions) {
-        const sessionsDir = join(homedir(), ".claude-video-vision", "sessions");
-        if (existsSync(sessionsDir)) {
-          rmSync(sessionsDir, { recursive: true, force: true });
+        if (existsSync(SESSIONS_DIR)) {
+          rmSync(SESSIONS_DIR, { recursive: true, force: true });
         }
       }
 

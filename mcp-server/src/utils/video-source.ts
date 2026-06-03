@@ -1,15 +1,14 @@
 import { execFile } from "child_process";
 import { createHash } from "crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from "fs";
-import { homedir, tmpdir } from "os";
+import { tmpdir } from "os";
 import { resolve, join } from "path";
 import { promisify } from "util";
 import type { AudioResult, TranscriptionSegment } from "../types.js";
 import { formatHMS, parseHMS } from "./timestamps.js";
+import { DOWNLOADS_DIR } from "./paths.js";
 
 const execFileAsync = promisify(execFile);
-
-const DOWNLOADS_DIR = join(homedir(), ".claude-video-vision", "downloads");
 
 const YOUTUBE_HOSTS = new Set([
   "youtube.com",
